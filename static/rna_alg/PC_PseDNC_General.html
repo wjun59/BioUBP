@@ -1,0 +1,87 @@
+<style>
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: 15px; /* 控制间隔 */
+    }
+
+    .checkbox-group label {
+        width: 23%; /* 设置每个标签的宽度，以确保每行四个 */
+        margin: 0; /* 移除默认边距 */
+        border: 1px solid #ccc;
+        align-content: center;
+    }
+
+    .checkbox-container {
+        background-color: white; /* 白色背景 */
+        border: 1px solid #ddd; /* 边框颜色 */
+        border-radius: 5px; /* 边框圆角 */
+        padding: 15px; /* 内边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        margin: 3px 18px;
+    }
+</style>
+
+<div class="form-group">
+    <label for="pc_psednc_general_param1" style="margin-right: 15px;"
+           title="λ represents the counted rank (or tier) of the correlation along a biological sequence. λ must be non-negative integer (such as 0, 1, 2, ...) and less than L-k , where L is the length of the query sequence and k is the length of the selected oligomer mode. Generally, the greater the λ is, the more sequence-order information is incorporated. However, large λ would result in redundant information and may lead to lower predictive performance and longer running time.">lambda</label>
+    <input type="number" id="pc_psednc_general_param1" name="pc_psednc_general_lambda_value" class="form-control" value="3" min="1">
+</div>
+
+<div class="form-group">
+    <label for="pc_psednc_general_param2" style="margin-right: 15px;"
+           title="w is the weight factor for the sequence-order effects and used to put weight to the additional pseudo components with respect to the conventional sequence components. The users can set the weight factor value in the range 0.1 to 1.0.">Weight</label>
+    <input type="number" id="pc_psednc_general_param2" name="pc_psednc_general_weight" class="form-control" value="0.5" min="0.1" max="1" step="0.1">
+</div>
+
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="pc_psednc_general_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="param3" style="margin-right: 15px;" title="Select physicochemical properties from the following table">Physicochemical
+        properties:(Select at least one attribute)</label>
+    <button type="button" id="selectAll_acc" onclick="pc_psednc_general_selectAllCheckboxes()">Select all</button>
+    <button type="button" id="deselectAll_acc" onclick="pc_psednc_general_deselectAllCheckboxes()">None</button>
+    <div class="checkbox-container"> <!-- 添加白色背景容器 -->
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="1"> Shift (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="2"> Hydrophilicity (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="3"> Hydrophilicity (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="4"> GC content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="5"> Purine (AG) content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="6"> Keto (GT) content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="7"> Adenine content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="8"> Guanine content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="9"> Cytosine content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="10"> Thymine content</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="11"> Slide (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="12"> Rise (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="13"> Tilt (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="14"> Roll (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="15"> Twist (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="16"> Stacking energy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="17"> Enthalpy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="18"> Entropy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="19"> Free energy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="20"> Free energy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="21"> Enthalpy (RNA)</label>
+            <label><input type="checkbox" name="pc_psednc_general_param3" value="22"> Entropy (RNA)</label>
+        </div>
+    </div>
+</div>
+

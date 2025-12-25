@@ -1,0 +1,148 @@
+<style>
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: 15px; /* 控制间隔 */
+    }
+
+    .checkbox-group label {
+        width: 23%; /* 设置每个标签的宽度，以确保每行四个 */
+        margin: 0; /* 移除默认边距 */
+        border: 1px solid #ccc;
+        align-content: center;
+    }
+
+    .checkbox-container {
+        background-color: white; /* 白色背景 */
+        border: 1px solid #ddd; /* 边框颜色 */
+        border-radius: 5px; /* 边框圆角 */
+        padding: 15px; /* 内边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        margin: 3px 18px;
+    }
+</style>
+
+<div class="form-group">
+    <label for="nmbac_param1" style="margin-right: 15px;"
+           title="lag represents the distance between two nucleotides, amino acids, or oligomers along a sequence. Default is 1">Lag</label>
+    <input type="number" id="nmbac_param1" name="nmbac_lag" class="form-control" value="1" min="1">
+</div>
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="nmbac_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="param3" style="margin-right: 15px;" title="Select physicochemical properties from the following table">Physicochemical
+        properties::(Select at least one attribute)</label>
+    <button type="button" id="selectAll_acc" onclick="nmbac_selectAllCheckboxes()">Select all</button>
+    <button type="button" id="deselectAll_acc" onclick="nmbac_deselectAllCheckboxes()">None</button>
+    <div class="checkbox-container"> <!-- 添加白色背景容器 -->
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="nmbac_param3" value="1"> Wedge</label>
+            <label><input type="checkbox" name="nmbac_param3" value="2"> Watson-Crick_interaction</label>
+            <label><input type="checkbox" name="nmbac_param3" value="3"> Twist_twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="4"> Twist_tilt</label>
+            <label><input type="checkbox" name="nmbac_param3" value="5"> Twist_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="6"> Twist_shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="7"> Twist_roll</label>
+            <label><input type="checkbox" name="nmbac_param3" value="8"> Twist_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="9"> Twist stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="10"> Twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="11"> Tip</label>
+            <label><input type="checkbox" name="nmbac_param3" value="12"> Tilt_tilt</label>
+            <label><input type="checkbox" name="nmbac_param3" value="13"> Tilt_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="14"> Tilt_shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="15"> Tilt_roll</label>
+            <label><input type="checkbox" name="nmbac_param3" value="16"> Tilt_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="17"> Tilt stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="18"> Tilt</label>
+            <label><input type="checkbox" name="nmbac_param3" value="19"> Sugimoto_dS</label>
+            <label><input type="checkbox" name="nmbac_param3" value="20"> Sugimoto_dH</label>
+            <label><input type="checkbox" name="nmbac_param3" value="21"> Sugimoto_dG</label>
+            <label><input type="checkbox" name="nmbac_param3" value="22"> Stacking_energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="23"> Stacking energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="24"> Stability</label>
+            <label><input type="checkbox" name="nmbac_param3" value="25"> Stabilising energy of Z-DNA</label>
+            <label><input type="checkbox" name="nmbac_param3" value="26"> Slide_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="27"> Slide_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="28"> Slide stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="29"> Slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="30"> Shift_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="31"> Shift_shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="32"> Shift_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="33"> Shift stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="34"> Shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="35"> Sarai_flexibility</label>
+            <label><input type="checkbox" name="nmbac_param3" value="36"> SantaLucia_dS</label>
+            <label><input type="checkbox" name="nmbac_param3" value="37"> SantaLucia_dH</label>
+            <label><input type="checkbox" name="nmbac_param3" value="38"> SantaLucia_dG</label>
+            <label><input type="checkbox" name="nmbac_param3" value="39"> Roll_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="40"> Roll_shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="41"> Roll_roll</label>
+            <label><input type="checkbox" name="nmbac_param3" value="42"> Roll_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="43"> Roll stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="44"> Roll</label>
+            <label><input type="checkbox" name="nmbac_param3" value="45"> Rise_rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="46"> Rise stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="47"> Rise</label>
+            <label><input type="checkbox" name="nmbac_param3" value="48"> Protein induced deformability</label>
+            <label><input type="checkbox" name="nmbac_param3" value="49"> Protein DNA twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="50"> Propeller twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="51"> Propeller Twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="52"> Polar_interaction</label>
+            <label><input type="checkbox" name="nmbac_param3" value="53"> Persistence Length</label>
+            <label><input type="checkbox" name="nmbac_param3" value="54"> Mobility to bend towards minor groove</label>
+            <label><input type="checkbox" name="nmbac_param3" value="55"> Mobility to bend towards major groove</label>
+            <label><input type="checkbox" name="nmbac_param3" value="56"> Minor Groove Width</label>
+            <label><input type="checkbox" name="nmbac_param3" value="57"> Minor Groove Size</label>
+            <label><input type="checkbox" name="nmbac_param3" value="58"> Minor Groove Distance</label>
+            <label><input type="checkbox" name="nmbac_param3" value="59"> Minor Groove Depth</label>
+            <label><input type="checkbox" name="nmbac_param3" value="60"> Melting Temperature</label>
+            <label><input type="checkbox" name="nmbac_param3" value="61"> Major Groove Width</label>
+            <label><input type="checkbox" name="nmbac_param3" value="62"> Major Groove Size</label>
+            <label><input type="checkbox" name="nmbac_param3" value="63"> Major Groove Distance</label>
+            <label><input type="checkbox" name="nmbac_param3" value="64"> Major Groove Depth</label>
+            <label><input type="checkbox" name="nmbac_param3" value="65"> Lisser_BZ_transition</label>
+            <label><input type="checkbox" name="nmbac_param3" value="66"> Ivanov_BA_transition</label>
+            <label><input type="checkbox" name="nmbac_param3" value="67"> Inclination</label>
+            <label><input type="checkbox" name="nmbac_param3" value="68"> Helix-Coil_transition</label>
+            <label><input type="checkbox" name="nmbac_param3" value="69"> Hartman_trans_free_energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="70"> Free energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="71"> Flexibility_slide</label>
+            <label><input type="checkbox" name="nmbac_param3" value="72"> Flexibility_shift</label>
+            <label><input type="checkbox" name="nmbac_param3" value="73"> Entropy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="74"> Enthalpy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="75"> Electron_interaction</label>
+            <label><input type="checkbox" name="nmbac_param3" value="76"> Duplex stability-free energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="77"> Duplex stability-disrupt energy</label>
+            <label><input type="checkbox" name="nmbac_param3" value="78"> DNA denaturation</label>
+            <label><input type="checkbox" name="nmbac_param3" value="79"> Direction</label>
+            <label><input type="checkbox" name="nmbac_param3" value="80"> Dinucleotide GC Content</label>
+            <label><input type="checkbox" name="nmbac_param3" value="81"> Clash Strength</label>
+            <label><input type="checkbox" name="nmbac_param3" value="82"> Breslauer_dS</label>
+            <label><input type="checkbox" name="nmbac_param3" value="83"> Breslauer_dH</label>
+            <label><input type="checkbox" name="nmbac_param3" value="84"> Breslauer_dG</label>
+            <label><input type="checkbox" name="nmbac_param3" value="85"> Bending stiffness</label>
+            <label><input type="checkbox" name="nmbac_param3" value="86"> Bend</label>
+            <label><input type="checkbox" name="nmbac_param3" value="87"> B-DNA twist</label>
+            <label><input type="checkbox" name="nmbac_param3" value="88"> Base stacking</label>
+            <label><input type="checkbox" name="nmbac_param3" value="89"> A-philicity</label>
+            <label><input type="checkbox" name="nmbac_param3" value="90"> Aida_BA_transition</label>
+        </div>
+    </div>
+</div>
+

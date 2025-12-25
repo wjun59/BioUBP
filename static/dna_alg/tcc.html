@@ -1,0 +1,70 @@
+<style>
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: 15px; /* 控制间隔 */
+    }
+
+    .checkbox-group label {
+        width: 23%; /* 设置每个标签的宽度，以确保每行四个 */
+        margin: 0; /* 移除默认边距 */
+        border: 1px solid #ccc;
+        align-content: center;
+    }
+
+    .checkbox-container {
+        background-color: white; /* 白色背景 */
+        border: 1px solid #ddd; /* 边框颜色 */
+        border-radius: 5px; /* 边框圆角 */
+        padding: 15px; /* 内边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        margin: 3px 18px;
+    }
+</style>
+
+<div class="form-group">
+    <label for="tcc_param1" style="margin-right: 15px;"
+           title="lag represents the distance between two nucleotides, amino acids, or oligomers along a sequence. Default is 1">Lag</label>
+    <input type="number" id="tcc_param1" name="tcc_lag" class="form-control" value="1" min="1">
+</div>
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="tcc_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="param3" style="margin-right: 15px;" title="Select physicochemical properties from the following table">Physicochemical
+        properties:(Select at least two attribute)</label>
+    <button type="button" id="selectAll_acc" onclick="tcc_selectAllCheckboxes()">Select all</button>
+    <button type="button" id="deselectAll_acc" onclick="tcc_deselectAllCheckboxes()">None</button>
+    <div class="checkbox-container"> <!-- 添加白色背景容器 -->
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="tcc_param3" value="1"> Bendability-DNAse</label>
+            <label><input type="checkbox" name="tcc_param3" value="2"> Bendability-consensus</label>
+            <label><input type="checkbox" name="tcc_param3" value="3"> Trinucleotide GC Content</label>
+            <label><input type="checkbox" name="tcc_param3" value="4"> Nucleosome positioning</label>
+            <label><input type="checkbox" name="tcc_param3" value="5"> Consensus_roll</label>
+            <label><input type="checkbox" name="tcc_param3" value="6"> Consensus_Rigid</label>
+            <label><input type="checkbox" name="tcc_param3" value="7"> Dnase I</label>
+            <label><input type="checkbox" name="tcc_param3" value="8"> Dnase I-Rigid</label>
+            <label><input type="checkbox" name="tcc_param3" value="9"> MW-Daltons</label>
+            <label><input type="checkbox" name="tcc_param3" value="10"> MW-kg</label>
+            <label><input type="checkbox" name="tcc_param3" value="11"> Nucleosome</label>
+            <label><input type="checkbox" name="tcc_param3" value="12"> Nucleosome-Rigid</label>
+        </div>
+    </div>
+</div>
+

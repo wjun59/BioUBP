@@ -1,0 +1,35 @@
+<div class="form-group">
+    <label for="distance_param1" style="margin-right: 15px;"
+           title="Max distance is the maximum distance between Top-1-gram pair or residue pair. The value of max distance must larger than or equal to 0 and smaller than the length of the longest sequence.">Max distance</label>
+    <input type="number" id="distance_param1" name="distance_d" class="form-control" value="2" min="1">
+</div>
+
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="distance_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
+
+<div class="form-group">
+    <label for="param22" style="margin-right: 15px;"
+           title="Select a reduced alphabet approach to significantly cut down the dimension of the PseAAC vector.">reduced alphabet scheme</label>
+    <select id="param22" name="distance_clusters" class="form-control">
+        <option value="1">cp13</option>
+        <option value="2">cp14</option>
+        <option value="3">cp19</option>
+        <option value="4">cp20</option>
+    </select>
+</div>

@@ -1,0 +1,206 @@
+<style>
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: 15px; /* 控制间隔 */
+    }
+
+    .checkbox-group label {
+        width: 23%; /* 设置每个标签的宽度，以确保每行四个 */
+        margin: 0; /* 移除默认边距 */
+        border: 1px solid #ccc;
+        align-content: center;
+    }
+
+    .checkbox-container {
+        background-color: white; /* 白色背景 */
+        border: 1px solid #ddd; /* 边框颜色 */
+        border-radius: 5px; /* 边框圆角 */
+        padding: 15px; /* 内边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        margin: 3px 18px;
+    }
+</style>
+
+<div class="form-group">
+    <label for="dacc_param1" style="margin-right: 15px;"
+           title="lag represents the distance between two nucleotides, amino acids, or oligomers along a sequence. Default is 1">Lag</label>
+    <input type="number" id="dacc_param1" name="dacc_lag" class="form-control" value="1" min="1">
+</div>
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="dacc_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="param3" style="margin-right: 15px;" title="Select physicochemical properties from the following table">Physicochemical
+        properties:(Select at least two attributes)</label>
+    <button type="button" id="selectAll" onclick="dacc_selectAllCheckboxes()">Select all</button>
+    <button type="button" id="deselectAll" onclick="dacc_deselectAllCheckboxes()">None</button>
+    <div class="checkbox-container"> <!-- 添加白色背景容器 -->
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="dacc_param3" value="1"> Base stacking</label>
+            <label><input type="checkbox" name="dacc_param3" value="2"> Protein induced deformability</label>
+            <label><input type="checkbox" name="dacc_param3" value="3"> B-DNA twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="4"> Dinucleotide GC Content</label>
+            <label><input type="checkbox" name="dacc_param3" value="5"> A-philicity</label>
+            <label><input type="checkbox" name="dacc_param3" value="6"> Propeller twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="7"> Duplex stability:(free energy)</label>
+            <label><input type="checkbox" name="dacc_param3" value="8"> Duplex stability(disrupt energy)</label>
+            <label><input type="checkbox" name="dacc_param3" value="9"> DNA denaturation</label>
+            <label><input type="checkbox" name="dacc_param3" value="10"> Bending stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="11"> Protein DNA twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="12"> Stabilising energy of Z-DNA</label>
+            <label><input type="checkbox" name="dacc_param3" value="13"> Aida_BA_transition</label>
+            <label><input type="checkbox" name="dacc_param3" value="14"> Breslauer_dG</label>
+            <label><input type="checkbox" name="dacc_param3" value="15"> Breslauer_dH</label>
+            <label><input type="checkbox" name="dacc_param3" value="16"> Breslauer_dS</label>
+            <label><input type="checkbox" name="dacc_param3" value="17"> Electron_interaction</label>
+            <label><input type="checkbox" name="dacc_param3" value="18"> Hartman_trans_free_energy</label>
+            <label><input type="checkbox" name="dacc_param3" value="19"> Helix-Coil_transition</label>
+            <label><input type="checkbox" name="dacc_param3" value="20"> Ivanov_BA_transition</label>
+            <label><input type="checkbox" name="dacc_param3" value="21"> Lisser_BZ_transition</label>
+            <label><input type="checkbox" name="dacc_param3" value="22"> Polar_interaction</label>
+            <label><input type="checkbox" name="dacc_param3" value="23"> SantaLucia_dG</label>
+            <label><input type="checkbox" name="dacc_param3" value="24"> SantaLucia_dH</label>
+            <label><input type="checkbox" name="dacc_param3" value="25"> SantaLucia_dS</label>
+            <label><input type="checkbox" name="dacc_param3" value="26"> Sarai_flexibility</label>
+            <label><input type="checkbox" name="dacc_param3" value="27"> Stability</label>
+            <label><input type="checkbox" name="dacc_param3" value="28"> Stacking_energy</label>
+            <label><input type="checkbox" name="dacc_param3" value="29"> Sugimoto_dG</label>
+            <label><input type="checkbox" name="dacc_param3" value="30"> Sugimoto_dH</label>
+            <label><input type="checkbox" name="dacc_param3" value="31"> Sugimoto_dS</label>
+            <label><input type="checkbox" name="dacc_param3" value="32"> Watson-Crick_interaction</label>
+            <label><input type="checkbox" name="dacc_param3" value="33"> Twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="34"> Tilt</label>
+            <label><input type="checkbox" name="dacc_param3" value="35"> Roll</label>
+            <label><input type="checkbox" name="dacc_param3" value="36"> Shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="37"> Slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="38"> Rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="39"> Clash Strength</label>
+            <label><input type="checkbox" name="dacc_param3" value="40"> Roll_roll</label>
+            <label><input type="checkbox" name="dacc_param3" value="41"> Twist stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="42"> Tilt stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="43"> Shift_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="44"> Adenine content</label>
+            <label><input type="checkbox" name="dacc_param3" value="45"> Direction</label>
+            <label><input type="checkbox" name="dacc_param3" value="46"> Twist_shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="47"> Enthalpy1</label>
+            <label><input type="checkbox" name="dacc_param3" value="48"> Twist_twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="49"> Roll_shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="50"> Shift_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="51"> Shift2</label>
+            <label><input type="checkbox" name="dacc_param3" value="52"> Tilt3</label>
+            <label><input type="checkbox" name="dacc_param3" value="53"> Tilt1</label>
+            <label><input type="checkbox" name="dacc_param3" value="54"> Tilt4</label>
+            <label><input type="checkbox" name="dacc_param3" value="55"> Tilt2</label>
+            <label><input type="checkbox" name="dacc_param3" value="56"> Slide (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="57"> Tilt_shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="58"> Twist (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="59"> Tilt_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="60"> Roll_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="61"> Stacking energy</label>
+            <label><input type="checkbox" name="dacc_param3" value="62"> Stacking energy1</label>
+            <label><input type="checkbox" name="dacc_param3" value="63"> Stacking energy2</label>
+            <label><input type="checkbox" name="dacc_param3" value="64"> Stacking energy3</label>
+            <label><input type="checkbox" name="dacc_param3" value="65"> Propeller Twist</label>
+            <label><input type="checkbox" name="dacc_param3" value="66"> Roll11</label>
+            <label><input type="checkbox" name="dacc_param3" value="67"> Rise (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="68"> Tilt_tilt</label>
+            <label><input type="checkbox" name="dacc_param3" value="69"> Roll4</label>
+            <label><input type="checkbox" name="dacc_param3" value="70"> Roll2</label>
+            <label><input type="checkbox" name="dacc_param3" value="71"> Roll3</label>
+            <label><input type="checkbox" name="dacc_param3" value="72"> Roll1</label>
+            <label><input type="checkbox" name="dacc_param3" value="73"> Minor Groove Size</label>
+            <label><input type="checkbox" name="dacc_param3" value="74"> GC content</label>
+            <label><input type="checkbox" name="dacc_param3" value="75"> Slide_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="76"> Enthalpy</label>
+            <label><input type="checkbox" name="dacc_param3" value="77"> Shift_shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="78"> Slide stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="79"> Melting Temperature1</label>
+            <label><input type="checkbox" name="dacc_param3" value="80"> Flexibility_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="81"> Minor Groove Distance</label>
+            <label><input type="checkbox" name="dacc_param3" value="82"> Rise (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="83"> Tilt (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="84"> Guanine content</label>
+            <label><input type="checkbox" name="dacc_param3" value="85"> Roll (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="86"> Entropy</label>
+            <label><input type="checkbox" name="dacc_param3" value="87"> Cytosine content</label>
+            <label><input type="checkbox" name="dacc_param3" value="88"> Major Groove Size</label>
+            <label><input type="checkbox" name="dacc_param3" value="89"> Twist_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="90"> Major Groove Distance</label>
+            <label><input type="checkbox" name="dacc_param3" value="91"> Twist (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="92"> Purine (AG) content</label>
+            <label><input type="checkbox" name="dacc_param3" value="93"> Melting Temperature</label>
+            <label><input type="checkbox" name="dacc_param3" value="94"> Free energy</label>
+            <label><input type="checkbox" name="dacc_param3" value="95"> Tilt_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="96"> Major Groove Width</label>
+            <label><input type="checkbox" name="dacc_param3" value="97"> Major Groove Depth</label>
+            <label><input type="checkbox" name="dacc_param3" value="98"> Wedge</label>
+            <label><input type="checkbox" name="dacc_param3" value="99"> Free energy8</label>
+            <label><input type="checkbox" name="dacc_param3" value="100"> Free energy6</label>
+            <label><input type="checkbox" name="dacc_param3" value="101"> Free energy7</label>
+            <label><input type="checkbox" name="dacc_param3" value="102"> Free energy4</label>
+            <label><input type="checkbox" name="dacc_param3" value="103"> Free energy5</label>
+            <label><input type="checkbox" name="dacc_param3" value="104"> Free energy2</label>
+            <label><input type="checkbox" name="dacc_param3" value="105"> Free energy3</label>
+            <label><input type="checkbox" name="dacc_param3" value="106"> Free energy1</label>
+            <label><input type="checkbox" name="dacc_param3" value="107"> Twist_roll</label>
+            <label><input type="checkbox" name="dacc_param3" value="108"> Shift (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="109"> Rise_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="110"> Flexibility_shift</label>
+            <label><input type="checkbox" name="dacc_param3" value="111"> Shift (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="112"> Thymine content</label>
+            <label><input type="checkbox" name="dacc_param3" value="113"> Slide_rise</label>
+            <label><input type="checkbox" name="dacc_param3" value="114"> Tilt_roll</label>
+            <label><input type="checkbox" name="dacc_param3" value="115"> Tip</label>
+            <label><input type="checkbox" name="dacc_param3" value="116"> Keto (GT) content</label>
+            <label><input type="checkbox" name="dacc_param3" value="117"> Roll stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="118"> Minor Groove Width</label>
+            <label><input type="checkbox" name="dacc_param3" value="119"> Inclination</label>
+            <label><input type="checkbox" name="dacc_param3" value="120"> Entropy1</label>
+            <label><input type="checkbox" name="dacc_param3" value="121"> Roll_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="122"> Slide (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="123"> Twist1</label>
+            <label><input type="checkbox" name="dacc_param3" value="124"> Twist3</label>
+            <label><input type="checkbox" name="dacc_param3" value="125"> Twist2</label>
+            <label><input type="checkbox" name="dacc_param3" value="126"> Twist5</label>
+            <label><input type="checkbox" name="dacc_param3" value="127"> Twist4</label>
+            <label><input type="checkbox" name="dacc_param3" value="128"> Twist7</label>
+            <label><input type="checkbox" name="dacc_param3" value="129"> Twist6</label>
+            <label><input type="checkbox" name="dacc_param3" value="130"> Tilt (DNA-protein complex)1</label>
+            <label><input type="checkbox" name="dacc_param3" value="131"> Twist_slide</label>
+            <label><input type="checkbox" name="dacc_param3" value="132"> Minor Groove Depth</label>
+            <label><input type="checkbox" name="dacc_param3" value="133"> Roll (DNA-protein complex)</label>
+            <label><input type="checkbox" name="dacc_param3" value="134"> Rise2</label>
+            <label><input type="checkbox" name="dacc_param3" value="135"> Persistence Length</label>
+            <label><input type="checkbox" name="dacc_param3" value="136"> Rise3</label>
+            <label><input type="checkbox" name="dacc_param3" value="137"> Shift stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="138"> Probability contacting nucleosome core</label>
+            <label><input type="checkbox" name="dacc_param3" value="139"> Mobility to bend towards major groove</label>
+            <label><input type="checkbox" name="dacc_param3" value="140"> Slide3</label>
+            <label><input type="checkbox" name="dacc_param3" value="141"> Slide2</label>
+            <label><input type="checkbox" name="dacc_param3" value="142"> Slide1</label>
+            <label><input type="checkbox" name="dacc_param3" value="143"> Shift1</label>
+            <label><input type="checkbox" name="dacc_param3" value="144"> Bend</label>
+            <label><input type="checkbox" name="dacc_param3" value="145"> Rise1</label>
+            <label><input type="checkbox" name="dacc_param3" value="146"> Rise stiffness</label>
+            <label><input type="checkbox" name="dacc_param3" value="147"> Mobility to bend towards minor groove</label>
+            <label><input type="checkbox" name="dacc_param3" value="148"> Twist_shift</label>
+        </div>
+    </div>
+</div>
+

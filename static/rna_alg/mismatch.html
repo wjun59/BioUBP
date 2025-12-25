@@ -1,0 +1,55 @@
+<style>
+    .checkbox-group {
+        display: flex;
+        flex-wrap: wrap; /* 允许换行 */
+        gap: 15px; /* 控制间隔 */
+    }
+
+    .checkbox-group label {
+        width: 23%; /* 设置每个标签的宽度，以确保每行四个 */
+        margin: 0; /* 移除默认边距 */
+        border: 1px solid #ccc;
+        align-content: center;
+    }
+
+    .checkbox-container {
+        background-color: white; /* 白色背景 */
+        border: 1px solid #ddd; /* 边框颜色 */
+        border-radius: 5px; /* 边框圆角 */
+        padding: 15px; /* 内边距 */
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 阴影效果 */
+        margin: 3px 18px;
+    }
+</style>
+
+<div class="form-group">
+    <label for="mismatch_param1" style="margin-right: 15px;"
+           title="k is the number of neighboring nucleic acids or amino aicds.">K</label>
+    <input type="number" id="mismatch_param1" name="mismatch_k" class="form-control" value="2" min="1" max="5">
+</div>
+
+
+<div class="form-group">
+    <label for="mismatch_param2" style="margin-right: 15px;"
+           title="m represents the maximum value inexact matching. (m<k).">m</label>
+    <input type="number" id="mismatch_param2" name="mismatch_m" class="form-control" value="1" min="0" max="4">
+</div>
+
+
+
+<div class="form-group">
+    <label for="param2" style="margin-right: 15px;"
+           title="The maximum dimension after feature extraction">Dimensions</label>
+    <select id="param2" name="mismatch_Dimensions" class="form-control">
+        <option value="10000">10000</option>
+        <option value="5000">5000</option>
+        <option value="3000">3000</option>
+        <option value="1000">1000</option>
+        <option value="500">500</option>
+        <option value="400">400</option>
+        <option value="300">300</option>
+        <option value="200">200</option>
+        <option value="100">100</option>
+        <option value="50">50</option>
+    </select>
+</div>
