@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>sampling</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css">
+    <style>
+        /* 调整整个页面布局 */
+        .jumbotron {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            margin-bottom: 20px;
+            padding-top: 20px;
+            padding-bottom: 15px;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: relative;
+            min-height: 25px;
+            margin-bottom: 10px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .navbar-default {
+            background-color: #208a71;
+        }
+
+        .thumbnail {
+            text-align: center;
+        }
+
+        .navbar-default a {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* 表单和文本框样式 */
+        textarea.form-control {
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .form-control {
+            width: 98%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn {
+            margin-top: 10px;
+        }
+
+        /* 提示文字样式 */
+        h5 small {
+            color: gray;
+        }
+
+        /* 文件输入部分美化 */
+        .file-input-label {
+            margin-bottom: 0px;
+            font-weight: bold;
+        }
+
+        /* 添加阴影和边框样式 */
+        .form-container {
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .scrollable-nav {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px 0;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .algorithm-btn {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: white; /* 默认背景颜色 */
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            flex: 1 0 18%;
+            max-width: 18%;
+            cursor: pointer; /* 手形光标 */
+            display: inline-block; /* 使其表现得像按钮 */
+        }
+
+        .algorithm-btn:hover {
+            background-color: #e6e6e6; /* 悬停时的背景颜色 */
+        }
+
+        .algorithm-btn.selected {
+            background-color: #e6e6e6; /* 选中时背景颜色 */
+        }
+
+        .d-none {
+            display: none;
+        }
+
+        .model-button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #ffffff; /* 未选中时背景颜色 */
+            cursor: pointer;
+            font-size: 14px; /* 调小字号 */
+            transition: background-color 0.3s;
+        }
+
+        .model-button:hover {
+            background-color: #e6e6e6; /* 悬停时的背景颜色 */
+        }
+
+        .model-button.selected {
+            background-color: #e6e6e6; /* 选中时背景颜色 */
+            color: black;
+        }
+
+
+    </style>
+</head>
+<body>
+
+<form action="/data_resampling" method="POST" enctype="multipart/form-data">
+    <div class="col-md-2" style="padding-top:7px;padding-bottom:5px; margin-left: 10px;width: 7%">
+        <a href="/" class="thumbnail">
+            <strong>Home</strong>
+        </a>
+    </div>
+    <nav class="jumbotron" id="uniqueNav"> <!-- 最外层 -->
+        <!-- 特征提取后的 -->
+        <div class="container form-container">
+            <div class="navbar navbar-default" style="margin-top: 10px">
+                <div class="col-xs-12 col-md-12">
+                    <strong style="color: white; font-size: 17px">Details of your data<small
+                            style="font-size: 12px; margin-left: 40px">Number of Classes:{{ data.num_classes }}</small>
+                        <small><a href="{{ url_for('feature_extraction', filename='after_feature_data') }}"
+                                  style="float: right;margin-left: 20px; margin-top: 5px;color: white; font-size: 12px"
+                                  title="Click to download the data files after feature extraction">
+                            Download your data after feature extraction
+                        </a></small>
+                    </strong>
+                </div>
+            </div>
+
+            <!-- Training and Testing Data Section -->
+            <div class="row">
+                <!-- Training Data Section -->
+                <div class="col-md-6">
+                    <div class="card" style="background-color: #ffffff; padding:2px 8px 8px 8px; border-radius: 8px;">
+                        <h2 style="font-size: 14px; color: #333; display: inline;"><strong>Training Data</strong></h2>
+                        <p style="font-size: 12px; display: inline;">Shape: {{ data.train_shape }}</p>
+                        <table class="table table-bordered" style="font-size: 11px; width: 100%; margin-bottom: 0;">
+                            <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Sample Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for label, count in data.train_class_counts.items() %}
+                                <tr>
+                                    <td>{{ label }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Testing Data Section -->
+                <div class="col-md-6">
+                    <div class="card" style="background-color: #ffffff; padding:2px 8px 8px 8px; border-radius: 8px;">
+                        <h2 style="font-size: 14px; color: #333;display: inline;"><strong>Testing Data</strong></h2>
+                        <p style="font-size: 12px;display: inline;">Shape: {{ data.test_shape }}</p>
+                        <table class="table table-bordered" style="font-size: 11px; width: 100%; margin-bottom: 0;">
+                            <thead>
+                            <tr>
+                                <th>Class</th>
+                                <th>Sample Count</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for label, count in data.test_class_counts.items() %}
+                                <tr>
+                                    <td>{{ label }}</td>
+                                    <td>{{ count }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- 采样算法-->
+        <div class="container form-container" style="margin-top: 30px;">
+            <div class="navbar navbar-default" style="margin-top: 6px;margin-bottom: 5px">
+                <div class="col-xs-6 col-md-6">
+                    <strong style="color: white;font-size: 17px">Resampling algorithms</strong>
+                </div>
+            </div>
+
+            <!-- 过采样算法 -->
+            <div style="text-align: center; position: relative; margin: 13px 0; ">
+                <hr style="border: none; border-top: 1px dashed #000; margin: 0;">
+                <!-- Centering the text in the middle of the line -->
+                <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color:#f5f5f5;font-weight: bold;">
+            OverSampling
+            </span>
+            </div>
+            <div class="scrollable-nav">
+                <!-- 过采样算法 -->
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="OverRandom" class="d-none">
+                    Random
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="KPCA" class="d-none">
+                    KPCA
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="SMOTE" class="d-none">
+                    SMOTE
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="MDNDO" class="d-none">
+                    MDNDO
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="ADASYN" class="d-none">
+                    ADASYN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="Interpolation" class="d-none">
+                    Interpolation
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="MDO" class="d-none">
+                    MDO
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="BorderlineSMOTE" class="d-none">
+                    BorderlineSMOTE
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="SVMSMOTE" class="d-none">
+                    SVMSMOTE
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="KMeansSMOTE" class="d-none">
+                    KMeansSMOTE
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="SMOTEN" class="d-none">
+                    SMOTEN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="ProWSyn" class="d-none">
+                    ProWSyn
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="RASLE" class="d-none">
+                    RASLE
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="WGANBased" class="d-none">
+                    WGAN-Based
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="NoiseSMOTE" class="d-none">
+                    NoiseSMOTE
+                </label>
+
+                <!-- 可以继续添加更多的过采样算法 -->
+            </div>
+
+            <!-- 欠采样算法 -->
+            <div style="text-align: center; position: relative; margin: 20px 0 10px 0;">
+                <hr style="border: none; border-top: 1px dashed #000; margin: 0;">
+
+                <!-- Centering the text in the middle of the line -->
+                <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);background-color:#f5f5f5;font-weight: bold;">
+            UnderSampling
+            </span>
+            </div>
+            <div class="scrollable-nav">
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="UnderRandom" class="d-none">
+                    Random
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="ClusterCentroids" class="d-none">
+                    Cluster Centroids
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="NearMiss" class="d-none">
+                    NearMiss
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="TomekLinks" class="d-none">
+                    Tomek Links
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="One_sided_selection" class="d-none">
+                    OSS
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="KSU" class="d-none">
+                    KSU
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="ENN" class="d-none">
+                    ENN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="NCR" class="d-none">
+                    NCR
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="EPDCC" class="d-none">
+                    EPDCC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="RENN" class="d-none">
+                    RENN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="AllKNN" class="d-none">
+                    AllKNN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="IHT" title="Applicable to binary classification only" class="d-none">
+                    IHT
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="CNN" class="d-none">
+                    CNN
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="NC" class="d-none">
+                    NC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="ERS" class="d-none">
+                    ERS
+                </label>
+                <label class="algorithm-btn" title="Applicable to binary classification only">
+                    <input type="radio" name="algorithm" value="Fuzzy" class="d-none">
+                    Fuzzy
+                </label>
+
+                <!-- 可以继续添加更多的欠采样算法 -->
+            </div>
+
+            <!-- 动态参数输入区域 -->
+            <div id="algorithm-params" class="container form-container" style="margin-top: 5px;">
+                <!-- 这里会动态加载算法html -->
+
+            </div>
+
+        </div>
+        <!----------------------------------------------------------------------------------------------------------------------------------------------------->
+
+        <!-- 以下是模型 -->
+        <div class="container form-container" style="margin-top: 3px;">
+            <!-- 以下是模型标题 -->
+            <div class="navbar navbar-default" style="margin-bottom: 18px;">
+                <div class="col-xs-6 col-md-7">
+                    <strong style="color: white;font-size: 17px">Choose your machine learning algorithms
+                        for training</strong>
+                </div>
+            </div>
+            <!-- 以下是模型正文 -->
+            <div class="navbar">
+                <!-- 以下是机器正文 -->
+                <div class="col-xs-6 col-md-6"
+                     style="border: 2px solid #ffffff; border-radius: 5px; box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);padding: 5px;margin-left: 12px; width: 45%;background-color: white">
+                    <div class="center-div"><strong>&nbsp;Traditional machine learning&nbsp;</strong></div>
+                    <div style="border-bottom: 2px solid #ccc;margin: 1px 0 5px 0;"></div>
+                    <div id="buttonContainer">
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="SVM" class="d-none">
+                            SVM
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="RandomForest" class="d-none">
+                            Random Forest
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="CRF" class="d-none">
+                            CRF
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="DecisionTrees" class="d-none">
+                            Decision Trees
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="NaiveBayes" class="d-none">
+                            Naive Bayes
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="KNN" class="d-none">
+                            KNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="GradientBoostingTrees" class="d-none">
+                            Gradient Boosting Trees
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="MLP" class="d-none">
+                            MLP
+                        </label>
+
+                    </div>
+
+                </div>
+                <!-- 以下是深度学习正文 -->
+                <div class="col-xs-6 col-md-6"
+                     style="border: 2px solid #ffffff; border-radius: 5px; box-shadow: 0 3px 7px rgba(0, 0, 0, 0.1);padding: 5px;margin-left: 40px; width: 45%;background-color: white">
+                    <div class="center-div"><strong>&nbsp;Deep learning&nbsp;</strong></div>
+                    <div style="border-bottom: 2px solid #ccc;margin: 1px 0 5px 0;"></div>
+                    <div id="buttonContainer">
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="DNN" class="d-none">
+                            DNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="RNN" class="d-none">
+                            RNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="LSTM" class="d-none">
+                            LSTM
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="BiLSTM" class="d-none">
+                            BiLSTM
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="LSTM-Attention" class="d-none">
+                            LSTM-Attention
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="GRU" class="d-none">
+                            GRU
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="TextCNN" class="d-none">
+                            TextCNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="TextRCNN" class="d-none">
+                            TextRCNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="VDCNN" class="d-none">
+                            VDCNN
+                        </label>
+                        <label class="model-button">
+                            <input type="radio" name="modelCheckbox" value="None" class="d-none">
+                            <strong title="No model training">None</strong>
+                        </label>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="border-bottom: 2px solid #fff;margin: 1px 0 0 0;"></div>
+
+        </div>
+        <!----------------------------------------------------------------------------------------------------------------------------------------------------->
+
+        <!-- 以下是提交 -->
+        <div class="navbar" style="margin-right: 20px">
+            <div style="margin: 10px 8px 10px 0;float: right">
+                <button id="submitButton_sampling" style="background-color: #0f7664;" type="submit"
+                        class="btn btn-default">
+                    <strong style="color: white">Submit</strong>
+                </button>
+            </div>
+        </div>
+
+
+    </nav>
+</form>
+
+</body>
+</html>
+
+<!--根据选中的算法加载相应的 HTML 文件加载进来-->
+<script src="{{ url_for('static', filename='js/sampling.js') }}"></script>

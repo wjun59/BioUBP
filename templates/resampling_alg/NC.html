@@ -1,0 +1,50 @@
+<style>
+    .input-group-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px; /* 可根据需要调整间距 */
+}
+
+.input-group-item .input-group-addon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-width: 50px; /* 设置最小宽度，保证标签不太窄 */
+    height: 32px;
+    line-height: 32px;
+    background-color: #f0f0f0;
+    border: 1px solid #ced4da;
+    border-right: none; /* 去掉右边框 */
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+}
+
+.input-group-item .form-control {
+    width: 70px; /* 根据需要调整宽度 */
+    height: 32px;
+    border: 1px solid #ced4da;
+    border-left: none; /* 去掉左边框，使其无缝连接 */
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* 移除默认 margin */
+    padding: 0 8px; /* 添加水平填充 */
+}
+
+</style>
+
+<div class="form-group">
+    <label for="TomekLinks1" style="margin-right: 15px;">Sampling Strategy</label>
+    <select id="TomekLinks1" name="NC_sampling_strategy" class="form-control">
+        <option value="auto" title="Only the samples that make up the Tomek chain with the minority are removed from the majority class.">auto</option>
+        <option value="all" title="Clean up the boundary samples between all classes, whether majority or minority">all</option>
+        <option value="majority" title="Clean up samples for most classes">majority</option>
+        <option value="not minority" title="Clean up samples for all categories except a few.">not minority</option>
+        <option value="not majority" title="Clean up samples for all categories except the majority class.">not majority</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="NC_n_neighbors" style="margin-right: 15px;"
+           title="n_neighbors is the number of neighbors used when downsampling">n_neighbors</label>
+    <input type="number" id="NC_n_neighbors" name="NC_n_neighbors" class="form-control" value="5" min="1" max="20">
+</div>

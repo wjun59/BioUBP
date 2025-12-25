@@ -1,0 +1,51 @@
+<style>
+    .input-group-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px; /* 可根据需要调整间距 */
+}
+
+.input-group-item .input-group-addon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-width: 50px; /* 设置最小宽度，保证标签不太窄 */
+    height: 32px;
+    line-height: 32px;
+    background-color: #f0f0f0;
+    border: 1px solid #ced4da;
+    border-right: none; /* 去掉右边框 */
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+}
+
+.input-group-item .form-control {
+    width: 70px; /* 根据需要调整宽度 */
+    height: 32px;
+    border: 1px solid #ced4da;
+    border-left: none; /* 去掉左边框，使其无缝连接 */
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* 移除默认 margin */
+    padding: 0 8px; /* 添加水平填充 */
+}
+
+</style>
+
+<div class="form-group">
+    <label for="adasyn_param1" style="margin-right: 15px;"
+           title="target_class is the class to be oversampled">target_class</label>
+    <input type="number" id="adasyn_param1" name="adasyn_target_class" class="form-control" value="0" max="{{ data.num_classes_1 }}" min="0">
+</div>
+
+<div class="form-group">
+    <label for="adasyn_param2" style="margin-right: 15px;"
+           title="The number of neighbors selected to generate a synthetic sample, defaults to 5">n_neighbors</label>
+    <input type="number" id="adasyn_param2" name="adasyn_n" class="form-control" value="5" min="1" max="{{ data.train_shape[0]}}">
+</div>
+
+<div class="form-group">
+    <label for="adasyn_param3" style="margin-right: 15px;"
+           title="Controls the proportion of synthetic samples generated in the range of (0, 1] (the proportion of the sum of this and other classes)">n_neighbors</label>
+    <input type="number" id="adasyn_param3" name="adasyn_beta" class="form-control" value="0.5" min="0" max="1" step="0.1">
+</div>

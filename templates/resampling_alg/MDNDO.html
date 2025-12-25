@@ -1,0 +1,44 @@
+<style>
+    .input-group-item {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px; /* 可根据需要调整间距 */
+}
+
+.input-group-item .input-group-addon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 8px;
+    min-width: 50px; /* 设置最小宽度，保证标签不太窄 */
+    height: 32px;
+    line-height: 32px;
+    background-color: #f0f0f0;
+    border: 1px solid #ced4da;
+    border-right: none; /* 去掉右边框 */
+    border-radius: 4px 0 0 4px;
+    text-align: center;
+}
+
+.input-group-item .form-control {
+    width: 70px; /* 根据需要调整宽度 */
+    height: 32px;
+    border: 1px solid #ced4da;
+    border-left: none; /* 去掉左边框，使其无缝连接 */
+    border-radius: 0 4px 4px 0;
+    margin: 0; /* 移除默认 margin */
+    padding: 0 8px; /* 添加水平填充 */
+}
+
+</style>
+
+
+<label for="basic-url">Sampling Strategy</label>
+<div class="input-group">
+    {% for label, count in data.train_class_counts.items() %}
+        <div class="input-group-item">
+            <span class="input-group-addon" id="basic-addon3">{{ label }}</span>
+            <input type="number" class="form-control" name="MDNDO{{label}}" min="{{ count }}" value="{{ count }}">
+        </div>
+    {% endfor %}
+</div>

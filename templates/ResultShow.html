@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Result</title>
+  <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css">
+  <style>
+    .jumbotron {
+      margin-left: auto;
+      margin-right: auto;
+      width: 80%;
+      margin-bottom: 20px;
+      padding-top: 20px;
+      padding-bottom: 15px;
+    }
+
+    .navbar {
+      position: relative;
+      min-height: 25px;
+      margin-bottom: 2px;
+      border: 1px solid transparent;
+      border-radius: 4px;
+    }
+
+    .navbar-default {
+      background-color: #208a71;
+    }
+
+    .navbar-default a {
+      color: white;
+      font-weight: bold;
+    }
+
+    .form-container {
+      padding: 20px;
+      background-color: #f7f7f7;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      height: 100%;
+    }
+
+    .btn-primary {
+      background-color: #208a71;
+      border-color: #208a71;
+    }
+
+    .btn-primary:hover {
+      background-color: #1a6e59;
+      border-color: #1a6e59;
+    }
+
+    h4 {
+      font-size: 18px;
+      font-weight: bold;
+      color: #333;
+    }
+
+    p {
+      font-size: 12px;
+    }
+
+    .row-equal {
+      display: flex;
+      gap: 20px;
+    }
+
+    .col-md-6 {
+      display: flex;
+      flex-direction: column;
+    }
+  </style>
+</head>
+<body>
+  <nav class="jumbotron" id="uniqueNav">
+    <!-- Navbar -->
+    <div class="container form-container" style="margin-top: 1px;">
+            <div class="navbar navbar-default" style="margin-top: 3px;margin-bottom: 10px">
+                <div class="col-xs-6 col-md-6">
+                    <strong style="color: white;font-size: 17px">Result Display</strong>
+                </div>
+            </div>
+
+            <div class="container">
+      <div class="row-equal">
+        <!-- Sampling Result Section -->
+        <div class="col-md-6">
+          <div class="form-container">
+            <h4>Sampling Results</h4>
+            <p><strong>Sampling Algorithm:</strong> {{ data.selected_algorithm }}</p>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th>Label</th>
+                  <th>Sample Count</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for label, count in data.train_class_counts.items() %}
+                <tr>
+                  <td>{{ label }}</td>
+                  <td>{{ count }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            <a href="{{ url_for('download_sample_data') }}" class="btn btn-primary">Download Sample Data</a>
+          </div>
+        </div>
+
+        <!-- Prediction Result Section -->
+        <div class="col-md-6">
+          <div class="form-container">
+            <h4>Prediction Results</h4>
+            <p><strong>Model Name:</strong> {{ data.model }}</p>
+            <p><strong>Accuracy:</strong> {{ data.acc }}%</p>
+            <a href="{{ url_for('static', filename='labels_predict.xlsx') }}" class="btn btn-primary">Download Prediction Results</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- Main Content -->
+
+
+  </nav>
+
+
+</body>
+</html>

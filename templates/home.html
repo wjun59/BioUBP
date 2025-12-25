@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BioUBP:Unbalanced BioSequence Processor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='plugins/bootstrap/css/bootstrap.min.css') }}">
+    <style>
+        .justify-text { text-align: justify; text-justify: inter-word; }
+        .jumbotron { margin-bottom: 0; }
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <div class="container">
+        <h2>BioUBP:Unbalanced BioSequence Processor</h2>
+        <p class="justify-text">The rapid advancement of next-generation sequencing technologies has led to an explosion of biological sequence data. However, traditional wet-lab methods face limitations in terms of efficiency and cost when it comes to high-throughput functional annotation. Although machine learning has provided a new paradigm for the functional prediction of biological sequences, existing tools still encounter core challenges such as data class imbalance, high barriers to entry for deep learning applications, and methodological limitations. To address these issues, this study has developed an online processing platform for imbalanced biological sequence data—BioUBP. The innovations of this platform are reflected in: (1) the construction of a full-process integrated analysis framework that automates the pipeline from feature encoding to model interpretation, significantly reducing the technical threshold; (2) the integration of over 30 resampling algorithms to enhance the performance of minority class identification through multi-level data balancing techniques; (3) the systematic integration of feature extraction methods for over 30 types of sequences to enhance feature representation capabilities; (4) the design of a universal input interface that supports imbalanced analysis across various fields such as biological sequences, medical imaging, and financial data. The platform, designed with modularity, enables zero-programming operations, providing an efficient tool for intelligent analysis in fields such as precision medicine and bioinformatics. The introduction of BioUBP is expected to promote in-depth research on the mapping relationship between biological sequences and functions and to provide a new paradigm for imbalanced data modeling across disciplines.</p>
+        <p><a class="btn btn-primary btn-lg" href="{{ url_for('dna') }}" role="button">Begin ></a></p>
+        <div class="row">
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="{{ url_for('static', filename='img/DNA.c39ef01a44444556c752.png') }}" alt="DNA">
+                    <div class="caption">
+                        <h3>DNA</h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="{{ url_for('static', filename='img/RNA.b68ce8a163e7bac17b1e.png') }}" alt="RNA">
+                    <div class="caption">
+                        <h3>RNA</h3>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail">
+                    <img src="{{ url_for('static', filename='img/Protein.659a0099fa1af1693c09.png') }}" alt="Protein">
+                    <div class="caption">
+                        <h3>Protein</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p class="text-center mt-5"><em>Copyright &copy; Zhaohong Deng,Yun Zuo Lab, Jiangnan University.</em></p>
+    </div>
+</div>
+</body>
+</html>

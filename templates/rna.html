@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RNA Analysis</title>
+    <link rel="stylesheet" href="../static/plugins/bootstrap/css/bootstrap.min.css">
+    <style>
+        /* 调整整个页面布局 */
+        .jumbotron {
+            margin-left: auto;
+            margin-right: auto;
+            width: 80%;
+            margin-bottom: 20px;
+            padding-top: 20px;
+            padding-bottom: 15px;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: relative;
+            min-height: 25px;
+            margin-bottom: 20px;
+            border: 1px solid transparent;
+            border-radius: 4px;
+        }
+
+        .navbar-default {
+            background-color: #208a71;
+        }
+
+        .thumbnail {
+            text-align: center;
+        }
+
+        .navbar .glyphicon {
+            color: white;
+            font-size: 18px;
+        }
+
+        .navbar-default a {
+            color: white;
+            font-weight: bold;
+        }
+
+        /* 表单和文本框样式 */
+        textarea.form-control {
+            resize: none;
+            margin-top: 10px;
+        }
+
+        .form-control {
+            width: 98%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h4 {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .btn {
+            margin-top: 10px;
+        }
+
+        /* 提示文字样式 */
+        h5 small {
+            color: gray;
+        }
+
+        /* 文件输入部分美化 */
+        .file-input-label {
+            margin-bottom: 0px;
+            font-weight: bold;
+        }
+
+        /* 添加阴影和边框样式 */
+        .form-container {
+            padding: 20px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            color: #0f7664;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .scrollable-nav {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px 0;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .algorithm-btn {
+            margin: 5px;
+            padding: 10px 15px;
+            background-color: white; /* 默认背景颜色 */
+            color: black;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            flex: 1 0 18%;
+            max-width: 18%;
+            cursor: pointer; /* 手形光标 */
+            display: inline-block; /* 使其表现得像按钮 */
+        }
+
+        .algorithm-btn:hover {
+            background-color: #e6e6e6; /* 悬停时的背景颜色 */
+        }
+
+        .algorithm-btn.selected {
+            background-color: #e6e6e6; /* 选中时背景颜色 */
+        }
+
+        .algorithm-btn input {
+            display: none; /* 隐藏实际的单选框 */
+        }
+        .uplod_four_files{
+            background-color: white;
+            padding-bottom: 8px;
+            margin-left: 5px;
+            width: 24%;
+        }
+
+    </style>
+</head>
+<body>
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-2" style="margin-left: 20px">
+            <a href="/" class="thumbnail">
+                <strong>&nbsp;&nbsp;Home</strong>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/dna" class="thumbnail">
+                <strong>DNA</strong>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/rna" class="thumbnail">
+                <strong>RNA</strong>
+            </a>
+        </div>
+        <div class="col-md-3">
+            <a href="/protein" class="thumbnail">
+                <strong>Protein</strong>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<form action="/process_seqs" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="seq_type" value="rna" />
+    <nav class="jumbotron" id="uniqueNav"> <!-- 最外层 -->
+
+        <!-- Input Dataset Section -->
+        <div class="container form-container">
+            <div class="navbar navbar-default" style="margin-top: 10px">
+                <div class="col-xs-6 col-md-6">
+                    <strong style="color: white;font-size: 17px">Input Dataset</strong>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Text Input Section -->
+                <div class="col-md-6">
+                    <h4>Enter RNA sequences (FASTA format):</h4>
+                    <textarea id="Textarea" name="Textarea" class="form-control" rows="6">input dataset</textarea>
+                    <h5><small>Enter data in FASTA format. The title includes id, label (0 or 1), and
+                        train/test.</small>
+                    </h5>
+                    <button type="button" id="loadButton" class="btn btn-primary">
+                        Load Example
+                    </button>
+                    <button type="button" id="clearButton" class="btn btn-danger">
+                        Clear
+                    </button>
+                </div>
+
+                <!-- File Upload Section -->
+                <div class="col-md-6">
+                    <h4>Upload Dataset File:</h4>
+                    <div class="form-group">
+                        <label for="fileInput" class="file-input-label">Select a file: <small id="fileNameDisplay"
+                                                                                              class="mt-2 text-info"></small></label>
+                        <input type="file" class="form-control-file d-none" id="fileInput" name="file_input"
+                               accept=".txt, .fa, .fasta" style="display: none;">
+                        <button type="button"
+                                class="btn btn-outline-secondary mt-2 d-flex justify-content-center align-items-center"
+                                onclick="document.getElementById('fileInput').click();"
+                                style="width: 100%; height: 105px; background-color: white; border: 1px solid #ced4da;">
+                            <img src="https://img.icons8.com/ios-filled/24/000000/upload.png" alt="Upload Icon"
+                                 class="mr-2"/>
+                        </button>
+
+                        <!-- Small note under button -->
+                        <small class="text-muted" style="font-size: 12px;">Only .txt, .fa, or .fasta files are allowed,
+                            up
+                            to 3MB.</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Feature Extraction -->
+        <div class="container form-container" style="margin-top: 30px;">
+            <div class="navbar navbar-default" style="margin-top: 6px;margin-bottom: 5px">
+                <div class="col-xs-6 col-md-6">
+                    <strong style="color: white;font-size: 17px">Feature Extraction</strong>
+                </div>
+            </div>
+            <div class="scrollable-nav">
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="DAC" class="d-none">
+                    DAC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="DACC" class="d-none">
+                    DACC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="DCC" class="d-none">
+                    DCC
+                </label>
+                <label class="algorithm-btn" >
+                    <input type="radio" name="algorithm" value="GAC" class="d-none">
+                    GAC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="Kmer" class="d-none">
+                    Kmer
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="Revkmer" class="d-none">
+                    Revkmer
+                </label>
+                <label class="algorithm-btn" >
+                    <input type="radio" name="algorithm" value="MAC" class="d-none">
+                    MAC
+                </label>
+                <label class="algorithm-btn" style="display: none">
+                    <input type="radio" name="algorithm" value="mismatch" class="d-none">
+                    MisMatch
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="NMBAC" class="d-none">
+                    NMBAC
+                </label>
+                <label class="algorithm-btn">
+                    <input type="radio" name="algorithm" value="Onehot" class="d-none">
+                    One-hot
+                </label>
+                <label class="algorithm-btn" style="display: none">
+                    <input type="radio" name="algorithm" value="PC_PseDNC_General" class="d-none">
+                    PC-PseDNC-General
+                </label>
+                <label class="algorithm-btn" style="display: none">
+                    <input type="radio" name="algorithm" value="SC_PseDNC_General" class="d-none">
+                    SC-PseDNC-General
+                </label>
+                <label class="algorithm-btn" style="display: none">
+                    <input type="radio" name="algorithm" value="SubSequence" class="d-none">
+                    SubSequence
+                </label>
+
+                <!-- 动态参数输入区域 -->
+                <div id="algorithm-params" class="container form-container" style="margin-top: 20px;">
+                   <!-- 这里会动态加载算法表单 -->
+                </div>
+
+            </div>
+
+        </div>
+        <div class="navbar" style="margin-right: 20px">
+            <div style="margin: 10px 8px 10px 0;float: right">
+                <button id="submitButton" style="background-color: #0f7664;" type="submit" class="btn btn-default">
+                    <strong style="color: white">Submit</strong>
+                </button>
+            </div>
+        </div>
+
+    </nav>
+</form>
+
+<form action="/process_files" method="POST" enctype="multipart/form-data">
+    <nav class="jumbotron" id="uniqueNav"> <!-- 最外层 -->
+        <div class="container form-container">
+            <div class="navbar navbar-default">
+                <div class="col-xs-12 col-md-12">
+                    <strong style="color: white;font-size: 17px">
+                        File input &nbsp;
+                        <small style="margin-left: 20px">(The feature vectors can be uploaded here:(Scikit-learn format))</small>
+                        <small><a href="{{ url_for('static', filename='Upload file example.zip') }}" style="margin-left: 20px; color: white;" title="Click to download the examples of uploaded files">
+                            Download Example File
+                        </a></small>
+                    </strong>
+
+                </div>
+            </div>
+            <!-- 添加下载链接按钮 -->
+            <!-- train data-->
+            <div class="form-group col-md-3 uplod_four_files">
+                        <label for="fileInput_traindata" class="file-input-label">train_data: <small id="traindatafileNameDisplay"
+                                                                                              class="mt-2 text-info"></small></label>
+                        <input type="file" class="form-control-file d-none" id="fileInput_traindata" name="file_input_traindata" style="display: none;">
+                        <button type="button" class="btn btn-outline-secondary mt-2 d-flex justify-content-center align-items-center"
+                                onclick="document.getElementById('fileInput_traindata').click();"
+                                style="width: 100%; height: 105px; background-color: white; border: 1px solid #ced4da;">
+                            <img src="https://img.icons8.com/ios-filled/24/000000/upload.png" alt="Upload Icon" class="mr-2"/>
+                        </button>
+            </div>
+            <!-- train labels-->
+            <div class="form-group col-md-3 uplod_four_files">
+                        <label for="fileInput_trainlables" class="file-input-label">train_labels: <small id="trainlablesfileNameDisplay"
+                                                                                              class="mt-2 text-info"></small></label>
+                        <input type="file" class="form-control-file d-none" id="fileInput_trainlables" name="file_input_trainlables" style="display: none;">
+                        <button type="button" class="btn btn-outline-secondary mt-2 d-flex justify-content-center align-items-center"
+                                onclick="document.getElementById('fileInput_trainlables').click();"
+                                style="width: 100%; height: 105px; background-color: white; border: 1px solid #ced4da;">
+                            <img src="https://img.icons8.com/ios-filled/24/000000/upload.png" alt="Upload Icon" class="mr-2"/>
+                        </button>
+            </div>
+            <!-- test data-->
+            <div class="form-group col-md-3 uplod_four_files">
+                        <label for="fileInput_testdata" class="file-input-label">test_data: <small id="testdatafileNameDisplay"
+                                                                                              class="mt-2 text-info"></small></label>
+                        <input type="file" class="form-control-file d-none" id="fileInput_testdata" name="file_input_testdata" style="display: none;">
+                        <button type="button" class="btn btn-outline-secondary mt-2 d-flex justify-content-center align-items-center"
+                                onclick="document.getElementById('fileInput_testdata').click();"
+                                style="width: 100%; height: 105px; background-color: white; border: 1px solid #ced4da;">
+                            <img src="https://img.icons8.com/ios-filled/24/000000/upload.png" alt="Upload Icon" class="mr-2"/>
+                        </button>
+            </div>
+            <!-- test labels-->
+            <div class="form-group col-md-3 uplod_four_files">
+                        <label for="fileInput_testlables" class="file-input-label">test_labels: <small id="testlablesfileNameDisplay"
+                                                                                              class="mt-2 text-info"></small></label>
+                        <input type="file" class="form-control-file d-none" id="fileInput_testlables" name="file_input_testlables" style="display: none;">
+                        <button type="button" class="btn btn-outline-secondary mt-2 d-flex justify-content-center align-items-center"
+                                onclick="document.getElementById('fileInput_testlables').click();"
+                                style="width: 100%; height: 105px; background-color: white; border: 1px solid #ced4da;">
+                            <img src="https://img.icons8.com/ios-filled/24/000000/upload.png" alt="Upload Icon" class="mr-2"/>
+                        </button>
+            </div>
+            <small style="margin-left: 5px; line-height: 1.6; font-size: 13px;clear: both;" >
+                <ol style="margin-top: 5px;">
+                    <li style="width: 90%;">All submitted files must be in <strong>CSV</strong> format.</li>
+                    <li>The training dataset (<code>train_data</code>) and testing dataset (<code>test_data</code>) must
+                        have the same data dimensions.
+                    </li>
+                    <li>The number of samples in the training dataset (<code>train_data</code>) must match the number of
+                        samples in the
+                        training label set (<code>train_labels</code>), and the number of samples in the testing dataset
+                        (<code>test_data</code>) must
+                        match the number of samples in the testing label set (<code>test_labels</code>).
+                    </li>
+                    <li>The label file (<code>labels</code>) should contain only a single column of data, and all entries
+                        must be of <strong>integer</strong> type.
+                    </li>
+                    <li>The label file must contain at least <strong>two distinct labels</strong>.</li>
+                </ol>
+            </small>
+            <div id="errorMessages" style="color:red; margin-top:10px;"></div>
+<script>
+    document.getElementById('submitButton2').addEventListener('click', function(event) {
+        event.preventDefault();  // 阻止默认提交行为
+
+        const formData = new FormData(document.querySelector('form'));
+
+        fetch('/process_files', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("errorMessages").textContent = "";  // 清空错误消息
+            if (data.success) {
+                alert("All files are valid!");
+            } else {
+                let errorMessage = "File validation failed:\n";
+
+                if (data.errors) {
+                    if (data.errors.train_labels) errorMessage += `Train Labels: ${data.errors.train_labels}\n`;
+                    if (data.errors.test_labels) errorMessage += `Test Labels: ${data.errors.test_labels}\n`;
+                    if (data.errors.data_dimension) errorMessage += `${data.errors.data_dimension}\n`;
+                    if (data.errors.train_data_labels) errorMessage += `${data.errors.train_data_labels}\n`;
+                    if (data.errors.test_data_labels) errorMessage += `${data.errors.test_data_labels}\n`;
+                } else {
+                    errorMessage += data.message;
+                }
+
+                document.getElementById("errorMessages").textContent = errorMessage;
+            }
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("An error occurred while processing the files.");
+        });
+    });
+</script>
+        </div>
+
+        <div class="navbar" style="margin-right: 20px">
+            <div style="margin: 10px 8px 10px 0;float: right">
+                <button id="submitButton2" style="background-color: #0f7664;" type="submit" class="btn btn-default">
+                    <strong style="color: white">Submit</strong>
+                </button>
+            </div>
+        </div>
+
+    </nav>
+
+</form>
+
+
+<!--文本输入-->
+<script>
+    // 文本输入板块
+    var textarea = document.getElementById('Textarea');
+    document.getElementById('loadButton').addEventListener('click', function () {
+        var contentToLoad = ">0|train\nAUCGGUACUCGAUCCCUUCGG\n>1|train\nCCUUCGGAUCGGUACUCGAUC\n>0|test\nAUCGGUACUCGAUCCCUCGGA\n>1|test\nCCUCGGAAUCGGUACUCGAUC\n";
+        textarea.value = contentToLoad;
+    });
+
+    // Clear functionality
+    document.getElementById('clearButton').addEventListener('click', function () {
+        textarea.value = '';
+    });
+
+    // File size validation and display selected file name
+    document.getElementById('fileInput').addEventListener('change', function () {
+        const maxSize = 3 * 1024 * 1024; // 3MB
+        const file = this.files[0];
+
+        if (file && file.size > maxSize) {
+            alert(`File is too large. It should not exceed ${maxSize / (1024 * 1024)}MB.`);
+            document.getElementById('fileInput').value = "";
+            return false;
+        }
+
+        var fileName = file ? file.name : '';
+        document.getElementById('fileNameDisplay').textContent = fileName ? fileName : '';
+    });
+
+    const radioButtons = document.querySelectorAll('input[name="algorithm"]');
+
+    radioButtons.forEach((radio) => {
+        radio.addEventListener('change', () => {
+            document.querySelectorAll('.algorithm-btn').forEach((btn) => {
+                btn.classList.remove('selected'); // 移除其他按钮的选中状态
+            });
+            radio.parentElement.classList.add('selected'); // 给选中的按钮添加类
+        });
+    });
+</script>
+<!--检验文本输入-->
+<script>
+    // Function to validate FASTA format from textarea
+    function validateFastaFormat(inputText) {
+        const lines = inputText.split('\n').filter(line => line.trim() !== '');
+
+        if (lines.length % 2 !== 0) {
+            console.log("内容必须由偶数行组成");
+            return false; // 内容必须由偶数行组成
+
+        }
+
+        let sequenceLength = null;
+        for (let i = 0; i < lines.length; i += 2) {
+            const headerPattern = /^>\d+\|(train|test)$/;
+            lines[i] = lines[i].trim();
+            if (!headerPattern.test(lines[i])) {
+                return false; // 奇数行格式不正确
+            }
+
+            if (i + 1 < lines.length) {
+                const sequence = lines[i + 1].trim();
+                console.log(sequence);
+                if (!/^[AUGC]+$/i.test(sequence)) {
+
+                    console.log("偶数行必须只含有AUGC字符");
+                    return false; // 偶数行必须只含有AUGC字符
+                }
+
+                if (sequenceLength === null) {
+                    sequenceLength = sequence.length;
+                } else if (sequence.length !== sequenceLength) {
+                    console.log("偶数行长度不一致");
+                    return false; // 偶数行长度不一致
+                }
+            } else {
+                console.log("没有足够的偶数行");
+                return false; // 没有足够的偶数行
+            }
+        }
+
+        return true; // 所有检查都通过
+    }
+
+document.getElementById('submitButton').addEventListener('click', function (event) {
+    const textareaValue = document.getElementById('Textarea').value.trim();
+    const fileInput = document.getElementById('fileInput');
+    const file = fileInput.files[0];
+
+    if (!textareaValue && !file) {
+        alert('Please enter a dataset in the textarea or upload a file.');
+        event.preventDefault(); // Prevent form submission
+        return;
+    }
+
+    if (!file) {
+        if (textareaValue && !validateFastaFormat(textareaValue)) {
+            alert('Unrequired text formatting.');
+            event.preventDefault(); // Prevent form submission
+        }
+    }else {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+            const fileContent = e.target.result;
+            if (!validateFastaFormat(fileContent)) {
+                alert('Unrequired text of file formatting.');
+                document.getElementById('fileInput').value = ''; // Clear invalid file
+                event.preventDefault(); // Prevent form submission until file is validated
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    // Step 4: Check if an algorithm is selected
+    const selectedAlgorithm = document.querySelector('input[name="algorithm"]:checked');
+    if (!selectedAlgorithm) {
+        alert('Please select an algorithm.');
+        event.preventDefault(); // Prevent form submission
+        return;
+    }
+
+    // If all validations pass, allow form submission
+});
+</script>
+
+</body>
+</html>
+
+<!--根据选中的算法加载相应的 HTML 文件加载进来-->
+<!--根据选中的算法加载相应的 HTML 文件的js-->
+<script src="{{ url_for('static', filename='js/rna_feature.js') }}">  </script>
+<!--4个需要上传文件的js-->
+<script src="{{ url_for('static', filename='js/Files_input.js') }}">  </script>
